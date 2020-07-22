@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PublicLayout /> component tests renders 1`] = `
+<Fragment>
+  <header />
+  <main>
+    <Suspense
+      fallback={
+        <div
+          className="loadingContainer"
+        >
+          <Loading />
+        </div>
+      }
+    >
+      <Switch>
+        <Route
+          exact={true}
+          key="0"
+          path="/"
+          render={[Function]}
+        />
+      </Switch>
+    </Suspense>
+  </main>
+  <footer />
+</Fragment>
+`;
