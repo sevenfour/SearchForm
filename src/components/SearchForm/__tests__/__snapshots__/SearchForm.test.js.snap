@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchForm /> component tests renders 1`] = `
+<form
+  className=""
+  onSubmit={[Function]}
+>
+  <div
+    role="search"
+  >
+    <label
+      htmlFor="search"
+    >
+      Search MEC
+    </label>
+    <input
+      id="search"
+      type="text"
+    />
+    <button
+      type="submit"
+    >
+      Search
+    </button>
+  </div>
+</form>
+`;
