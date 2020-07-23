@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchResult /> component tests renders 1`] = `
+<Tile
+  className="container"
+>
+  <figure
+    className="figure"
+  >
+    <img
+      className="image"
+    />
+    <figcaption
+      className="figcaption"
+    />
+  </figure>
+</Tile>
+`;

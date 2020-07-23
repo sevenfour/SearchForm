@@ -2,24 +2,32 @@
 
 exports[`<SearchForm /> component tests renders 1`] = `
 <form
-  className=""
+  className="form"
   onSubmit={[Function]}
 >
   <div
+    className="formWrapper"
     role="search"
   >
     <label
+      className="label"
       htmlFor="search"
     >
       Search gear on MEC
     </label>
     <input
+      aria-invalid={false}
+      autoCapitalize="off"
+      autoComplete="off"
+      autoCorrect="on"
+      className="input"
       id="search"
       onChange={[Function]}
-      type="text"
+      type="search"
       value=""
     />
     <button
+      className="button"
       type="submit"
     >
       Search

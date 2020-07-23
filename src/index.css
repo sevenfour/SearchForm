@@ -1,5 +1,19 @@
+:root {
+  --asphalt-grey: #333333;
+  --watermelon-red: #e21f11;
+  --grass-green: #0ca948;
+  --dust-grey: #c8c8c8;
+  --stone-grey: #e8e6df;
+  --grey-alpha-10: rgba(0, 0, 0, 0.1);
+  --white: #ffffff;
+  /* stylelint-disable plugin/stylelint-no-indistinguishable-colors */
+  --black: #000000;
+  /* stylelint-enable plugin/stylelint-no-indistinguishable-colors */
+}
+
 body {
   margin: 0;
+  color: var(--asphalt-grey);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

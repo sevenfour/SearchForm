@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
 
+import styles from './SearchForm.module.css';
+
 const SearchForm = props => {
 
   const {
     className,
+    error,
     onSubmit = () => {}
   } = props;
 
@@ -14,28 +17,50 @@ const SearchForm = props => {
 
   function handleChange(e) {
     setSearchQuery(e?.target?.value);
-  }  
-
+  }
 
   return (
     <form
-      className={clsx(className)}
+      className={clsx(className, styles.form)}
       onSubmit={e => {
         e.preventDefault();
         onSubmit(searchQuery);
       }}
     >
-      <div role="search">
-        <label htmlFor="search">
+      <div
+        className={styles.formWrapper}
+        role="search"
+      >
+        <label
+          className={styles.label}
+          htmlFor="search"
+        >
           Search gear on MEC
+          {
+            error &&
+              <p
+                className={styles.error}
+                role="alert"
+              >
+                {error}
+              </p>
+          }
         </label>
         <input
+          aria-invalid={Boolean(error)}
+          autoCapitalize="off"
+          autoComplete="off"
+          autoCorrect="on"
+          className={styles.input}
           id="search"
           onChange={handleChange}
-          type="text"
+          type="search"
           value={searchQuery}
         />
-        <button type="submit">
+        <button
+          className={styles.button}
+          type="submit"
+        >
           Search
         </button>
       </div>
@@ -45,6 +70,7 @@ const SearchForm = props => {
 
 SearchForm.propTypes = {
   className: PropTypes.string,
+  error: PropTypes.string,
   onSubmit: PropTypes.func
 };
 

@@ -1,9 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Search /> component tests renders 1`] = `
-<Fragment>
+<div
+  className="container"
+>
   <SearchForm
+    error=""
     onSubmit={[Function]}
   />
-</Fragment>
+  <div
+    aria-labelledby={null}
+    className="resultsGrid"
+  >
+    <div
+      className="noResultsMsg"
+    />
+  </div>
+</div>
 `;

@@ -8,13 +8,9 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    search: ''
-  }),
-  useHistory: () => ({
-    push: () => {}
+jest.mock('./context/ProgressContextProvider', () => ({
+  useProgressProviderContext: () => ({
+    loading: false,
+    setLoading: () => {}
   })
-
 }));
