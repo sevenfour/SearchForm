@@ -12,10 +12,9 @@ const Search = () => {
   async function handleOnSubmit(query) {
     setSearchString(query);
     try {
-      const searchResults = await getSearchResults(query);
+      await getSearchResults(query);
     } catch (e) {
       log.error(e); // TypeError: failed to fetch
-    } finally {
     }
   }
 

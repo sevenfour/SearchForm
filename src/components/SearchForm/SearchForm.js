@@ -14,7 +14,8 @@ const SearchForm = props => {
 
   function handleChange(e) {
     setSearchQuery(e?.target?.value);
-  };
+  }  
+
 
   return (
     <form
@@ -30,9 +31,9 @@ const SearchForm = props => {
         </label>
         <input
           id="search"
+          onChange={handleChange}
           type="text"
           value={searchQuery}
-          onChange={handleChange}
         />
         <button type="submit">
           Search

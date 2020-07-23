@@ -1,5 +1,4 @@
 import { mecAxios as axios } from '../utils/axios';
-import log from 'loglevel';
 
 import { get } from './serviceUtils';
 
