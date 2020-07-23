@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
@@ -10,21 +10,30 @@ const SearchForm = props => {
     onSubmit = () => {}
   } = props;
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+  function handleChange(e) {
+    setSearchQuery(e?.target?.value);
+  }  
+
+
   return (
     <form
       className={clsx(className)}
       onSubmit={e => {
         e.preventDefault();
-        onSubmit();
+        onSubmit(searchQuery);
       }}
     >
       <div role="search">
         <label htmlFor="search">
-          Search MEC
+          Search gear on MEC
         </label>
         <input
           id="search"
+          onChange={handleChange}
           type="text"
+          value={searchQuery}
         />
         <button type="submit">
           Search
