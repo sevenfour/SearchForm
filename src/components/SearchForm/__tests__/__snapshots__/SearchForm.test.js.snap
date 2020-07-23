@@ -11,11 +11,13 @@ exports[`<SearchForm /> component tests renders 1`] = `
     <label
       htmlFor="search"
     >
-      Search MEC
+      Search gear on MEC
     </label>
     <input
       id="search"
+      onChange={[Function]}
       type="text"
+      value=""
     />
     <button
       type="submit"
