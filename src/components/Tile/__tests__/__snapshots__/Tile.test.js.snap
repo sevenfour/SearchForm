@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Tile /> component tests renders 1`] = `
+<div
+  className="root"
+/>
+`;

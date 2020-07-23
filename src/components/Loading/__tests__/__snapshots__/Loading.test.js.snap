@@ -1,7 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Loading /> component tests renders 1`] = `
-<div>
-  Loading...
+<div
+  className="spinner"
+  role="progressbar"
+>
+  <p
+    className="visuallyHidden"
+  >
+    Content is loading.
+  </p>
+  <svg
+    className=""
+    viewBox="22 22 44 44"
+  >
+    <circle
+      className="circle"
+      cx="44"
+      cy="44"
+      fill="none"
+      r="20.2"
+      strokeWidth="3.6"
+    />
+  </svg>
 </div>
 `;

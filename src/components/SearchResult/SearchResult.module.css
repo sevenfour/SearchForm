@@ -1,0 +1,17 @@
+
+.container {
+  --padding: 20px;
+}
+
+.figure {
+  margin: 0;
+  padding: var(--padding);
+}
+
+.image {
+  width: 100%;
+}
+
+.figcaption {
+  padding-top: var(--padding);
+}

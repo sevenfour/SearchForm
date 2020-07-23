@@ -3,13 +3,19 @@
 exports[`<PublicLayout /> component tests renders 1`] = `
 <Fragment>
   <header />
-  <main>
+  <main
+    aria-busy={false}
+    aria-live="polite"
+    className="container"
+  >
     <Suspense
       fallback={
         <div
           className="loadingContainer"
         >
-          <Loading />
+          <Loading
+            overlay={true}
+          />
         </div>
       }
     >
