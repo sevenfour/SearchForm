@@ -106,7 +106,7 @@ const Search = () => {
 
       setSearchResults(products.map(searchResultsDataMapper));
     } catch (e) {
-      log.error(e); // failed to fetch\
+      log.error(e); // failed to fetch
 
       setError(networkError);
     } finally {
