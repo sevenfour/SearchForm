@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import log from 'loglevel';
 
 import { getSearchResults } from '../../services/searchService';
@@ -11,9 +11,14 @@ import SearchResult from '../../components/SearchResult';
 
 import styles from './Search.module.css';
 
+const PAGE_STEP = 9;
+
 const emptySearchTermError = 'You need to enter a search term.';
 const noResultsMessage = 'No results for your search have been found';
 const networkError = 'Ops..., something went wrong. Please try again';
+
+const getIntersectionObserver = (callback) =>
+  new IntersectionObserver(callback);
 
 const searchResultsDataMapper = result => {
 
@@ -37,13 +42,54 @@ const Search = () => {
   const [searchString, setSearchString] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
+  const [resultsToDisplay, setResultsToDisplay] = useState([]);
+
+  const [resultsStep, setResultsStep] = useState(PAGE_STEP);
+  const [hasMore, setHasMore] = useState(false);
+
   const [error, setError] = useState('');
 
   const { loading, setLoading } = useProgressProviderContext();
 
+  // Need to use Ref to persist between re-renders
+  const observer = useRef();
+
+  const lastResultRef = useCallback(node => {
+    if (loading) return;
+
+    // Disconnect the previous node observer if that's a case
+    observer.current && observer.current.disconnect();
+
+    // Connect a new observer to the new last element
+    observer.current = getIntersectionObserver(entries =>
+      entries[0].isIntersecting &&
+      hasMore &&
+      setResultsStep(prevStep => prevStep + PAGE_STEP)
+    );
+
+    // Observe the last element
+    node && observer.current.observe(node);
+  }, [loading, hasMore]);
+
   useEffect(() => {
     setSearchResults([]);
+    setResultsToDisplay([]);
+    setResultsStep(PAGE_STEP);
   }, [searchString]);
+
+  useEffect(() => {
+    const isMore =
+      searchResults.slice(resultsStep, resultsStep + PAGE_STEP).length > 0;
+
+    setHasMore(isMore);
+
+    setResultsToDisplay(prev =>
+      [
+        ...prev,
+        ...searchResults.slice(resultsStep - PAGE_STEP, resultsStep)
+      ]
+    );
+  }, [searchResults, resultsStep]);
 
   async function handleOnSubmit(query) {
     const isEmptyQuery = Boolean(!query);
@@ -54,11 +100,14 @@ const Search = () => {
 
     setLoading(true);
     setSearchString(query);
+
     try {
       const { products = [] } = await getSearchResults(query);
+
       setSearchResults(products.map(searchResultsDataMapper));
     } catch (e) {
       log.error(e); // failed to fetch
+
       setError(networkError);
     } finally {
       setLoading(false);
@@ -82,29 +131,47 @@ const Search = () => {
       }
       {loading && <Loading className={styles.loader} />}
       {
-        !error && (
+        !error && !loading && (
           <div
             aria-labelledby={searchResults.length > 0 ? 'resultsFor' : null}
             className={styles.resultsGrid}
           >
             {
-              searchResults.length > 0
+              resultsToDisplay.length > 0
                 ? (
-                  searchResults.map(({name, mainImage}, index) =>
-                    <SearchResult
-                      className={styles.result}
-                      image={mainImage}
-                      key={index}
-                      name={name}
-                    />
-                  )
+                  resultsToDisplay
+                    .map(({name, mainImage}, index) => {
+
+                      const isLastResult =
+                        resultsToDisplay.length === index + 1;
+
+                      const result = (
+                        <SearchResult
+                          className={styles.result}
+                          image={mainImage}
+                          key={index}
+                          name={name}
+                        />
+                      );
+
+                      return isLastResult
+                        ? (
+                          <div
+                            key={index}
+                            ref={lastResultRef}
+                          >
+                            {result}
+                          </div>
+                        )
+                        : result;
+                    })
                 )
                 : <div className={styles.noResultsMsg}>
                     {searchString && !loading && noResultsMessage}
                   </div>
 
             }
-          </div>    
+          </div>
         )
       }
     </div>
