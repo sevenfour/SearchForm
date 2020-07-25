@@ -56,6 +56,10 @@
       "last 1 safari version"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sevenfour/search-form"
+  },
   "jest": {
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
