@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
 
+import { Circle } from '../icons';
+
 import './Loading.css';
-import stylesUtilities from '../../styles/Utilities.module.css';
+import stylesUtilities from 'styles/Utilities.module.css';
 
 const Loading = props => {
 
@@ -23,19 +25,10 @@ const Loading = props => {
       <p className={stylesUtilities.visuallyHidden}>
         Content is loading.
       </p>
-      <svg
-        className=""
-        viewBox="22 22 44 44"
-      >
-        <circle
-          className="circle"
-          cx="44"
-          cy="44"
-          fill="none"
-          r="20.2"
-          strokeWidth="3.6"
-        />
-      </svg>
+      <Circle
+        className="circleIcon"
+        color="transparent"
+      />
     </div>
   );
 

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
 
+import { ErrorOutlined } from '../icons';
+
 import styles from './SearchForm.module.css';
 
 const SearchForm = props => {
@@ -42,6 +44,7 @@ const SearchForm = props => {
                 className={styles.error}
                 role="alert"
               >
+                <ErrorOutlined className={styles.errorIcon} />
                 {error}
               </p>
           }

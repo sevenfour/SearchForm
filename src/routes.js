@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import PublicLayout from './layouts/PublicLayout';
+import PublicLayout from 'layouts/PublicLayout';
 
 export const allRoot = '*';
 
