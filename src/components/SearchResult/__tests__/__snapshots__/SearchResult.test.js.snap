@@ -7,8 +7,9 @@ exports[`<SearchResult /> component tests renders 1`] = `
   <figure
     className="figure"
   >
-    <img
-      className="image"
+    <LazyImage
+      height={200}
+      width={200}
     />
     <figcaption
       className="figcaption"

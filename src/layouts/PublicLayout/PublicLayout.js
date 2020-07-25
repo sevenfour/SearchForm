@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { renderRoutes } from 'react-router-config';
 
-import { useProgressProviderContext } from '../../context/ProgressContextProvider';
+import { useProgressProviderContext } from 'context/ProgressContextProvider';
 
-import Loading from '../../components/Loading';
+import Loading from 'components/Loading';
 
 import styles from './PublicLayout.module.css';
 

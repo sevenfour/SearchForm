@@ -1,4 +1,4 @@
-import { mecAxios as axios } from '../utils/axios';
+import { mecAxios as axios } from 'utils/axios';
 
 import { get } from './serviceUtils';
 

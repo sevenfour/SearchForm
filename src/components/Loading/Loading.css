@@ -12,7 +12,12 @@
   color: var(--grass-green);
 }
 
-.circle {
+.circleIcon {
+  width: inherit;
+  height: inherit;
+}
+
+.circleIcon > circle {
   stroke: currentColor;
   stroke-dasharray: 80px, 200px;
   stroke-dashoffset: 0;
@@ -64,7 +69,7 @@
     animation: none;
   }
 
-  .circle {
+  .circleIcon > circle {
     animation: none;
   }
 }

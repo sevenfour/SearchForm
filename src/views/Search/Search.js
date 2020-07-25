@@ -1,13 +1,13 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import log from 'loglevel';
 
-import { getSearchResults } from '../../services/searchService';
+import { getSearchResults } from 'services/searchService';
 
-import { useProgressProviderContext } from '../../context/ProgressContextProvider';
+import { useProgressProviderContext } from 'context/ProgressContextProvider';
 
-import Loading from '../../components/Loading';
-import SearchForm from '../../components/SearchForm';
-import SearchResult from '../../components/SearchResult';
+import Loading from 'components/Loading';
+import SearchForm from 'components/SearchForm';
+import SearchResult from 'components/SearchResult';
 
 import styles from './Search.module.css';
 
@@ -15,7 +15,7 @@ const PAGE_STEP = 9;
 
 const emptySearchTermError = 'You need to enter a search term.';
 const noResultsMessage = 'No results for your search have been found';
-const networkError = 'Ops..., something went wrong. Please try again';
+const networkError = 'Ops..., something went wrong.';
 
 const getIntersectionObserver = (callback) =>
   new IntersectionObserver(callback);
@@ -121,7 +121,7 @@ const Search = () => {
         onSubmit={handleOnSubmit}
       />
       {
-        searchString &&
+        !error && searchString &&
           <h1
             className={styles.title}
             id="resultsFor"
@@ -140,7 +140,7 @@ const Search = () => {
               resultsToDisplay.length > 0
                 ? (
                   resultsToDisplay
-                    .map(({name, mainImage}, index) => {
+                    .map(({name, smallImage, mainImage}, index) => {
 
                       const isLastResult =
                         resultsToDisplay.length === index + 1;
@@ -148,15 +148,17 @@ const Search = () => {
                       const result = (
                         <SearchResult
                           className={styles.result}
-                          image={mainImage}
                           key={index}
+                          mainImage={mainImage}
                           name={name}
+                          smallImage={smallImage}
                         />
                       );
 
                       return isLastResult
                         ? (
                           <div
+                            className={styles.refWrapper}
                             key={index}
                             ref={lastResultRef}
                           >

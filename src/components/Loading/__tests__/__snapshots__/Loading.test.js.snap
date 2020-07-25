@@ -10,18 +10,9 @@ exports[`<Loading /> component tests renders 1`] = `
   >
     Content is loading.
   </p>
-  <svg
-    className=""
-    viewBox="22 22 44 44"
-  >
-    <circle
-      className="circle"
-      cx="44"
-      cy="44"
-      fill="none"
-      r="20.2"
-      strokeWidth="3.6"
-    />
-  </svg>
+  <Circle
+    className="circleIcon"
+    color="transparent"
+  />
 </div>
 `;
