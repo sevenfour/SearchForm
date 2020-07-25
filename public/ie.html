@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Current browser is not supported</title>
+    <meta
+      name="description"
+      content="Sorry, your current browser cannot run this app."
+    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .container {
+        margin: 5em auto 0;
+        padding: 1em;
+        max-width: 20em;
+        font-family: sans-serif;
+        font-size: 0.88em;
+      }
+
+      .icon {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        width: 10em;
+        height: 10em;
+      }
+
+      .icon > path {
+        fill: #f8de7e;
+      }
+
+      .heading {
+        margin-bottom: 2em;
+        text-align: center;
+        font-size: 1.3em;
+      }
+
+      .list {
+        padding-left: 5.5em;
+        list-style: none;
+      }
+
+      .link {
+        display: block;
+        padding-top: 0.975em;
+        padding-bottom: 0.975em;
+      }
+
+      .link:hover,
+      .link:focus {
+        opacity: 0.75;
+      }
+
+      @media ( min-width: 768px ) {
+
+        .link {
+          padding: 0.7em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <svg
+        class="icon"
+        focusable="false"
+        viewBox="0 0 24 24"
+        tabindex="-1"
+      >
+        <path
+          d="M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"></path>
+      </svg>
+      <h1 class="heading">
+        <strong>Unsupported Browser</strong>
+      </h1>
+      <p>
+        The latest version of one of the following browsers is recommended:
+      </p>
+      <ul class="list">
+        <li>
+          <a
+            class="link"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://www.google.com/chrome/"
+          >
+            Google Chrome
+          </a>
+        </li>
+        <li>
+          <a
+            class="link"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://www.mozilla.org/en-CA/firefox/new/"
+          >
+            Mozilla Firefox
+          </a>
+        </li>
+        <li>
+          <a
+            class="link"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://www.microsoft.com/en-us/edge"
+          >
+            Microsoft Edge
+          </a>
+        </li>
+        <li>
+          <a
+            class="link"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://www.apple.com/ca/safari/"
+          >
+            Safari
+          </a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
