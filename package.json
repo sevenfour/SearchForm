@@ -20,8 +20,6 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.5.0",
     "husky": "^4.2.5",
-    "postcss-html": "^0.36.0",
-    "postcss-syntax": "^0.36.2",
     "stylelint": "^13.6.1",
     "stylelint-a11y": "^1.2.3",
     "stylelint-config-concentric": "^2.0.2",
@@ -37,7 +35,7 @@
     "eject": "react-scripts eject",
     "lint-js": "eslint --ext js,jsx src/ --ignore-pattern *test*",
     "lint:fix": "eslint --ext js,jsx src/ --fix --ignore-pattern *test*",
-    "lint-css": "stylelint src/ --ignore-pattern *test* --ignore-pattern images",
+    "lint-css": "stylelint src/ --ignore-pattern *test*",
     "lint": "npm run lint-js && npm run lint-css"
   },
   "eslintConfig": {
