@@ -20,17 +20,23 @@ const LazyImage = props => {
     ...rest
   } = props;
 
+  const [isError, setIsError] = useState(false);
   const [imageSrc, setImageSrc] = useState(placeholderSrc(width, height));
 
   function handleLoad() {
     setImageSrc(mainUrl);
   }
 
-  return mainUrl
+  function handleError() {
+    setIsError(true);
+  }  
+
+  return mainUrl && !isError
     ? (
       <img
         alt={alt}
         className={styles.image}
+        onError={handleError}
         onLoad={handleLoad}
         src={imageSrc}
         {...rest}
