@@ -9,17 +9,17 @@ import Loading from 'components/Loading';
 
 import styles from './PublicLayout.module.css';
 
+const loader = (
+  <div className={styles.loadingContainer}>
+    <Loading overlay />
+  </div>
+);
+
 const PublicLayout = props => {
 
   const { route } = props;
 
   const { loading } = useProgressProviderContext();
-
-  const loader = (
-    <div className={styles.loadingContainer}>
-      <Loading overlay />
-    </div>
-  );
 
   return (
     <>
