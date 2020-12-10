@@ -3,14 +3,21 @@
 exports[`<LazyImage /> component tests renders with a placeholder 1`] = `
 <Landscape
   className="placeholderImage"
+  style={
+    Object {
+      "--height": "auto",
+    }
+  }
 />
 `;
 
 exports[`<LazyImage /> component tests renders with an image 1`] = `
-<img
-  className="image"
-  onError={[Function]}
-  onLoad={[Function]}
-  src="data:image/svg+xml,%3Csvg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 undefined undefined\\"%3E%3C/svg%3E"
+<Landscape
+  className="placeholderImage"
+  style={
+    Object {
+      "--height": "auto",
+    }
+  }
 />
 `;

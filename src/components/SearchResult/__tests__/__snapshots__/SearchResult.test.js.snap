@@ -8,7 +8,9 @@ exports[`<SearchResult /> component tests renders 1`] = `
     className="figure"
   >
     <LazyImage
+      aspectRatio="16/9"
       height={200}
+      placeholderImage={[Function]}
       width={200}
     />
     <figcaption
