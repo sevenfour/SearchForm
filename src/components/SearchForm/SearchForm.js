@@ -7,11 +7,15 @@ import { ErrorOutlined } from '../icons';
 
 import styles from './SearchForm.module.css';
 
+const SEARCH_LABEL = 'Search';
+const SEARCHING_LABEL = 'Searching...';
+
 const SearchForm = props => {
 
   const {
     className,
     error,
+    isLoading = false,
     onSubmit = () => {}
   } = props;
 
@@ -37,7 +41,7 @@ const SearchForm = props => {
           className={styles.label}
           htmlFor="search"
         >
-          Search gear on MEC
+          { isLoading ? SEARCHING_LABEL : SEARCH_LABEL }
           {
             error &&
               <p
@@ -74,6 +78,7 @@ const SearchForm = props => {
 SearchForm.propTypes = {
   className: PropTypes.string,
   error: PropTypes.string,
+  isLoading: PropTypes.bool,
   onSubmit: PropTypes.func
 };
 

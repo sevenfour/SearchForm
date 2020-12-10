@@ -9,7 +9,13 @@ import Loading from 'components/Loading';
 import SearchForm from 'components/SearchForm';
 import SearchResult from 'components/SearchResult';
 
+import { dataMapperNameMapping } from 'utils/dataMappers';
+
 import styles from './Search.module.css';
+
+const SEARCH_API_NAME = process.env.REACT_APP_SEARCH_API_NAME;
+const SEARCH_RESPONSE_COLLECTION_NAME =
+  process.env.REACT_APP_SEARCH_RESPONSE_COLLECTION_NAME;
 
 const PAGE_STEP = 9;
 
@@ -20,22 +26,7 @@ const networkError = 'Ops..., something went wrong.';
 const getIntersectionObserver = (callback) =>
   new IntersectionObserver(callback);
 
-const searchResultsDataMapper = result => {
-
-  const {
-    full_name = '',
-    default_image_urls: {
-      main_image_url = '',
-      small_image_url = ''
-    } = {}
-  } = result;
-
-  return {
-    name: full_name,
-    mainImage: main_image_url,
-    smallImage: small_image_url
-  };
-};
+const dataMapper = dataMapperNameMapping[SEARCH_API_NAME];
 
 const Search = () => {
 
@@ -102,9 +93,11 @@ const Search = () => {
     setSearchString(query);
 
     try {
-      const { products = [] } = await getSearchResults(query);
+      const results = await getSearchResults(query);
 
-      setSearchResults(products.map(searchResultsDataMapper));
+      const items = results[SEARCH_RESPONSE_COLLECTION_NAME];
+
+      setSearchResults(items.map(dataMapper));
     } catch (e) {
       log.error(e); // failed to fetch
 
@@ -118,6 +111,7 @@ const Search = () => {
     <div className={styles.container}>
       <SearchForm
         error={error}
+        isLoading={loading}
         onSubmit={handleOnSubmit}
       />
       {
@@ -140,7 +134,7 @@ const Search = () => {
               resultsToDisplay.length > 0
                 ? (
                   resultsToDisplay
-                    .map(({name, smallImage, mainImage}, index) => {
+                    .map(({name, mainImage}, index) => {
 
                       const isLastResult =
                         resultsToDisplay.length === index + 1;
@@ -151,7 +145,6 @@ const Search = () => {
                           key={index}
                           mainImage={mainImage}
                           name={name}
-                          smallImage={smallImage}
                         />
                       );
 
