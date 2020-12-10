@@ -6,6 +6,7 @@ exports[`<Search /> component tests renders 1`] = `
 >
   <SearchForm
     error=""
+    isLoading={false}
     onSubmit={[Function]}
   />
   <div

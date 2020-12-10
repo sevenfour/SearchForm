@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import log from 'loglevel';
 
-import { getSearchResults } from 'services/searchService';
+import { getGoogleSearchResults } from 'services/searchService';
 
 import { useProgressProviderContext } from 'context/ProgressContextProvider';
 
@@ -23,17 +23,23 @@ const getIntersectionObserver = (callback) =>
 const searchResultsDataMapper = result => {
 
   const {
-    full_name = '',
-    default_image_urls: {
-      main_image_url = '',
-      small_image_url = ''
+    title = '',
+    pagemap: {
+      cse_image = [],
+      cse_thumbnail = []
     } = {}
   } = result;
 
+  const [ imageObj = {} ] = cse_image;
+  const [ thumbImageObj = {} ] = cse_thumbnail;
+
+  const { src = '' } = imageObj;
+  const { thumbSrc = '' } = thumbImageObj;
+
   return {
-    name: full_name,
-    mainImage: main_image_url,
-    smallImage: small_image_url
+    name: title,
+    mainImage: src,
+    smallImage: thumbSrc
   };
 };
 
@@ -102,9 +108,9 @@ const Search = () => {
     setSearchString(query);
 
     try {
-      const { products = [] } = await getSearchResults(query);
+      const { items = [] } = await getGoogleSearchResults(query);
 
-      setSearchResults(products.map(searchResultsDataMapper));
+      setSearchResults(items.map(searchResultsDataMapper));
     } catch (e) {
       log.error(e); // failed to fetch
 
@@ -118,6 +124,7 @@ const Search = () => {
     <div className={styles.container}>
       <SearchForm
         error={error}
+        isLoading={loading}
         onSubmit={handleOnSubmit}
       />
       {

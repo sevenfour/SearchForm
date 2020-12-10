@@ -13,7 +13,7 @@ exports[`<SearchForm /> component tests renders 1`] = `
       className="label"
       htmlFor="search"
     >
-      Search gear on MEC
+      Search
     </label>
     <input
       aria-invalid={false}

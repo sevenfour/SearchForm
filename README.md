@@ -1,9 +1,11 @@
 
 # Search Form App
 
-> Minimalistic and a11y search form on MEC api
+> Minimalistic and a11y search form
 
-This repository contains the Search Form app connected to the MEC search API.
+This repository contains the Search Form app connected to the provided
+through env variables search API
+(currently the data mapper configured for Google search API response).
 It builds into a deployable bundle.
 
 ## Usage

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const MEC_API_HOSTNAME = 'www.mec.ca'
+const GOOGLE_API_HOSTNAME = 'www.googleapis.com';
 
-export const mecAxios = axios.create({
-  baseURL: `https://${MEC_API_HOSTNAME}`
+export const googleAxios = axios.create({
+  baseURL: `https://${GOOGLE_API_HOSTNAME}`
 });
