@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import log from 'loglevel';
 
-import { getGoogleSearchResults } from 'services/searchService';
+import { getSearchResults } from 'services/searchService';
 
 import { useProgressProviderContext } from 'context/ProgressContextProvider';
 
@@ -9,7 +9,13 @@ import Loading from 'components/Loading';
 import SearchForm from 'components/SearchForm';
 import SearchResult from 'components/SearchResult';
 
+import { dataMapperNameMapping } from 'utils/dataMappers';
+
 import styles from './Search.module.css';
+
+const SEARCH_API_NAME = process.env.REACT_APP_SEARCH_API_NAME;
+const SEARCH_RESPONSE_COLLECTION_NAME =
+  process.env.REACT_APP_SEARCH_RESPONSE_COLLECTION_NAME;
 
 const PAGE_STEP = 9;
 
@@ -20,28 +26,7 @@ const networkError = 'Ops..., something went wrong.';
 const getIntersectionObserver = (callback) =>
   new IntersectionObserver(callback);
 
-const searchResultsDataMapper = result => {
-
-  const {
-    title = '',
-    pagemap: {
-      cse_image = [],
-      cse_thumbnail = []
-    } = {}
-  } = result;
-
-  const [ imageObj = {} ] = cse_image;
-  const [ thumbImageObj = {} ] = cse_thumbnail;
-
-  const { src = '' } = imageObj;
-  const { thumbSrc = '' } = thumbImageObj;
-
-  return {
-    name: title,
-    mainImage: src,
-    smallImage: thumbSrc
-  };
-};
+const dataMapper = dataMapperNameMapping[SEARCH_API_NAME];
 
 const Search = () => {
 
@@ -108,9 +93,11 @@ const Search = () => {
     setSearchString(query);
 
     try {
-      const { items = [] } = await getGoogleSearchResults(query);
+      const results = await getSearchResults(query);
 
-      setSearchResults(items.map(searchResultsDataMapper));
+      const items = results[SEARCH_RESPONSE_COLLECTION_NAME];
+
+      setSearchResults(items.map(dataMapper));
     } catch (e) {
       log.error(e); // failed to fetch
 
@@ -147,7 +134,7 @@ const Search = () => {
               resultsToDisplay.length > 0
                 ? (
                   resultsToDisplay
-                    .map(({name, smallImage, mainImage}, index) => {
+                    .map(({name, mainImage}, index) => {
 
                       const isLastResult =
                         resultsToDisplay.length === index + 1;
@@ -158,7 +145,6 @@ const Search = () => {
                           key={index}
                           mainImage={mainImage}
                           name={name}
-                          smallImage={smallImage}
                         />
                       );
 

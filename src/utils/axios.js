@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const GOOGLE_API_HOSTNAME = 'www.googleapis.com';
+const API_HOSTNAME = process.env.REACT_APP_API_HOSTNAME;
 
-export const googleAxios = axios.create({
-  baseURL: `https://${GOOGLE_API_HOSTNAME}`
+export const searchAxios = axios.create({
+  baseURL: `https://${API_HOSTNAME}`
 });

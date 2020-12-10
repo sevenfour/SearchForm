@@ -12,7 +12,6 @@ const SearchResult = props => {
   const {
     className,
     name,
-    smallImage,
     mainImage
   } = props;
 
@@ -23,7 +22,6 @@ const SearchResult = props => {
           alt={name}
           height={200}
           mainUrl={mainImage}
-          smallUrl={smallImage}
           width={200}
         />
         <figcaption className={styles.figcaption}>
@@ -37,8 +35,7 @@ const SearchResult = props => {
 SearchResult.propTypes = {
   className: PropTypes.string,
   mainImage: PropTypes.string,
-  name: PropTypes.string,
-  smallImage: PropTypes.string
+  name: PropTypes.string
 };
 
 export default SearchResult;

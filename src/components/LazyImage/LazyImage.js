@@ -29,7 +29,7 @@ const LazyImage = props => {
 
   function handleError() {
     setIsError(true);
-  }  
+  }
 
   return mainUrl && !isError
     ? (
@@ -47,10 +47,9 @@ const LazyImage = props => {
 
 LazyImage.propTypes = {
   alt: PropTypes.string,
-  height: PropTypes.string,
+  height: PropTypes.number,
   mainUrl: PropTypes.string,
-  smallUrl: PropTypes.string,
-  width: PropTypes.string
+  width: PropTypes.number
 };
 
 export default  LazyImage;

@@ -1,11 +1,10 @@
 
 import { get } from './serviceUtils';
-import { googleAxios } from 'utils/axios';
+import { searchAxios } from 'utils/axios';
 
 const SEARCH_ENGINE_ID = process.env.REACT_APP_SEARCH_ENGINE_ID;
 const SEARCH_FORM_API_KEY = process.env.REACT_APP_SEARCH_FORM_API_KEY;
-
-const GOOGLE_API_SEARCH_ENDPOINT = 'customsearch/v1';
+const API_SEARCH_ENDPOINT = process.env.REACT_APP_API_SEARCH_ENDPOINT;
 
 /**
  * Returns search results
@@ -13,7 +12,7 @@ const GOOGLE_API_SEARCH_ENDPOINT = 'customsearch/v1';
 export const constructGetSearchResults = (axios) => (query) => {
   return get(
     axios,
-    GOOGLE_API_SEARCH_ENDPOINT,
+    API_SEARCH_ENDPOINT,
     {
       params: {
         key: SEARCH_FORM_API_KEY,
@@ -25,4 +24,4 @@ export const constructGetSearchResults = (axios) => (query) => {
   );
 };
 
-export const getGoogleSearchResults = constructGetSearchResults(googleAxios);
+export const getSearchResults = constructGetSearchResults(searchAxios);
