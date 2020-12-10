@@ -20,8 +20,9 @@ const SearchResult = props => {
       <figure className={styles.figure}>
         <LazyImage
           alt={name}
+          aspectRatio="16/9"
           height={200}
-          mainUrl={mainImage}
+          imgUrl={mainImage}
           width={200}
         />
         <figcaption className={styles.figcaption}>

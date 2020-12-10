@@ -95,7 +95,7 @@ const Search = () => {
     try {
       const results = await getSearchResults(query);
 
-      const items = results[SEARCH_RESPONSE_COLLECTION_NAME];
+      const items = results[SEARCH_RESPONSE_COLLECTION_NAME] || [];
 
       setSearchResults(items.map(dataMapper));
     } catch (e) {
