@@ -42,16 +42,6 @@ const SearchForm = props => {
           htmlFor="search"
         >
           { isLoading ? SEARCHING_LABEL : SEARCH_LABEL }
-          {
-            error &&
-              <p
-                className={styles.error}
-                role="alert"
-              >
-                <ErrorOutlined className={styles.errorIcon} />
-                {error}
-              </p>
-          }
         </label>
         <input
           aria-invalid={Boolean(error)}
@@ -64,6 +54,16 @@ const SearchForm = props => {
           type="search"
           value={searchQuery}
         />
+        {
+          error &&
+            <p
+              className={styles.error}
+              role="alert"
+            >
+              <ErrorOutlined className={styles.errorIcon} />
+              {error}
+            </p>
+        }
         <button
           className={styles.button}
           type="submit"

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchResultTileSkeleton /> component tests renders 1`] = `
+<div
+  aria-label="Search result Tile Skeleton"
+  className="container"
+  role="img"
+>
+  <div
+    className="aspectRatioBox imageBox"
+    style={
+      Object {
+        "--aspect-ratio": "16/9",
+      }
+    }
+  />
+  <div
+    className="dataBox"
+  />
+</div>
+`;

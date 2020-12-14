@@ -1,5 +1,7 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import log from 'loglevel';
+
+import { useInView } from 'react-intersection-observer';
 
 import { getSearchResults } from 'services/searchService';
 
@@ -8,23 +10,21 @@ import { useProgressProviderContext } from 'context/ProgressContextProvider';
 import Loading from 'components/Loading';
 import SearchForm from 'components/SearchForm';
 import SearchResult from 'components/SearchResult';
+import InViewWrapper from 'components/InViewWrapper';
+import SearchResultTileSkeleton from 'components/SearchResultTileSkeleton';
 
 import { dataMapperNameMapping } from 'utils/dataMappers';
 
 import styles from './Search.module.css';
 
 const SEARCH_API_NAME = process.env.REACT_APP_SEARCH_API_NAME;
-const SEARCH_RESPONSE_COLLECTION_NAME =
-  process.env.REACT_APP_SEARCH_RESPONSE_COLLECTION_NAME;
 
 const PAGE_STEP = 9;
+const MAX_RESULTS = 90;
 
 const emptySearchTermError = 'You need to enter a search term.';
 const noResultsMessage = 'No results for your search have been found';
 const networkError = 'Ops..., something went wrong.';
-
-const getIntersectionObserver = (callback) =>
-  new IntersectionObserver(callback);
 
 const dataMapper = dataMapperNameMapping[SEARCH_API_NAME];
 
@@ -33,71 +33,66 @@ const Search = () => {
   const [searchString, setSearchString] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const [resultsToDisplay, setResultsToDisplay] = useState([]);
+  const [totalSearchResults, setTotalSearchResults] = useState(0);
 
-  const [resultsStep, setResultsStep] = useState(PAGE_STEP);
-  const [hasMore, setHasMore] = useState(false);
+  const [resultsStep, setResultsStep] = useState(0);
 
   const [error, setError] = useState('');
 
   const { loading, setLoading } = useProgressProviderContext();
 
-  // Need to use Ref to persist between re-renders
-  const observer = useRef();
+  const [lastResultRef, isLastTileInView] = useInView();
 
-  const lastResultRef = useCallback(node => {
+  useEffect(() => {
     if (loading) return;
 
-    // Disconnect the previous node observer if that's a case
-    observer.current && observer.current.disconnect();
-
-    // Connect a new observer to the new last element
-    observer.current = getIntersectionObserver(entries =>
-      entries[0].isIntersecting &&
-      hasMore &&
-      setResultsStep(prevStep => prevStep + PAGE_STEP)
-    );
-
-    // Observe the last element
-    node && observer.current.observe(node);
-  }, [loading, hasMore]);
+    if (isLastTileInView &&
+      !error &&
+      searchResults.length <= MAX_RESULTS &&
+      searchResults.length < totalSearchResults
+    ) {
+      setResultsStep(prevStep => prevStep + PAGE_STEP);
+    }
+  }, [
+    isLastTileInView,
+    loading,
+    totalSearchResults,
+    searchResults,
+    error
+  ]);
 
   useEffect(() => {
     setSearchResults([]);
-    setResultsToDisplay([]);
-    setResultsStep(PAGE_STEP);
+    setResultsStep(0);
   }, [searchString]);
 
-  useEffect(() => {
-    const isMore =
-      searchResults.slice(resultsStep, resultsStep + PAGE_STEP).length > 0;
-
-    setHasMore(isMore);
-
-    setResultsToDisplay(prev =>
-      [
-        ...prev,
-        ...searchResults.slice(resultsStep - PAGE_STEP, resultsStep)
-      ]
-    );
-  }, [searchResults, resultsStep]);
-
-  async function handleOnSubmit(query) {
-    const isEmptyQuery = Boolean(!query);
-
-    setError(isEmptyQuery ? emptySearchTermError : null);
-
-    if (isEmptyQuery) return;
-
-    setLoading(true);
-    setSearchString(query);
+  const getData = async (query) => {
 
     try {
-      const results = await getSearchResults(query);
+      setLoading(true);
 
-      const items = results[SEARCH_RESPONSE_COLLECTION_NAME] || [];
+      const {
+        items = [],
+        queries: {
+          request
+        } = {}
+      } = await getSearchResults(
+        query,
+        {
+          num: PAGE_STEP,
+          start: resultsStep
+        }
+      );
 
-      setSearchResults(items.map(dataMapper));
+      setSearchResults(prevResults => [
+        ...prevResults,
+        ...items
+      ]);
+
+      const [ requestObj ] = request;
+      const { totalResults } = requestObj;
+
+      setTotalSearchResults(Number(totalResults));
     } catch (e) {
       log.error(e); // failed to fetch
 
@@ -105,6 +100,26 @@ const Search = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    /*
+     * Don't load data on the initial render as
+     * that will be handled by onSubmit
+    */
+    resultsStep > 0 && getData(searchString);
+  }, [resultsStep]);
+
+  function handleOnSubmit(query) {
+    const isEmptyQuery = Boolean(!query);
+
+    setError(isEmptyQuery ? emptySearchTermError : null);
+
+    if (isEmptyQuery) return;
+
+    setSearchString(query);
+
+    getData(query);
   }
 
   return (
@@ -125,41 +140,52 @@ const Search = () => {
       }
       {loading && <Loading className={styles.loader} />}
       {
-        !error && !loading && (
+
           <div
             aria-labelledby={searchResults.length > 0 ? 'resultsFor' : null}
             className={styles.resultsGrid}
           >
             {
-              resultsToDisplay.length > 0
+              searchResults.length > 0
                 ? (
-                  resultsToDisplay
-                    .map(({name, mainImage}, index) => {
+                  searchResults.map((datum, index) => {
 
-                      const isLastResult =
-                        resultsToDisplay.length === index + 1;
+                    const isLastResult = searchResults.length === index + 1;
 
-                      const result = (
+                    const {
+                      name,
+                      mainImage
+                    } = dataMapper(datum);
+
+                    const props = {
+                      mainImage,
+                      name
+                    };
+
+                    const result = (
                         <SearchResult
                           className={styles.result}
                           key={index}
-                          mainImage={mainImage}
-                          name={name}
+                          {...props}
                         />
-                      );
+                    );
 
-                      return isLastResult
-                        ? (
+                    return isLastResult
+                      ? (
                           <div
                             className={styles.refWrapper}
                             key={index}
                             ref={lastResultRef}
                           >
-                            {result}
+                            <InViewWrapper 
+                              content={result}
+                              initialInView={!index}
+                              placeHolder={<SearchResultTileSkeleton />}
+                            />
                           </div>
-                        )
-                        : result;
-                    })
+                      )
+                      : result;
+                  })
                 )
                 : <div className={styles.noResultsMsg}>
                     {searchString && !loading && noResultsMessage}
@@ -167,7 +193,7 @@ const Search = () => {
 
             }
           </div>
-        )
+
       }
     </div>
   );
